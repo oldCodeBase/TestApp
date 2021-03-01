@@ -12,9 +12,8 @@ class MainViewController: UIViewController {
     private let tableView         = UITableView()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    private var isFiltering       = false
     private var cities            = [Weather]()
-    private var filteredСities    = [Weather]()
+    private var fetchedCities     = [Weather]()
     private var cityNames         = ["Moscow", "New-York", "London", "Paris", "Berlin",
                                      "Rim", "Oslo", "Grozny", "Madrid", "Amsterdam"]
     
@@ -67,7 +66,8 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.activityIndicator.removeFromSuperview()
-                self.cities = weather
+                self.fetchedCities = weather
+                self.cities = self.fetchedCities
                 self.tableView.reloadData()
             }
         }
@@ -78,19 +78,19 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isFiltering ? filteredСities.count : cities.count
+        return cities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CityCell.reuseID) as! CityCell
-        let city = isFiltering ? filteredСities[indexPath.row] : cities[indexPath.row]
+        let city = cities[indexPath.row]
         cell.set(city: city)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let city = isFiltering ? filteredСities[indexPath.row] : cities[indexPath.row]
+        let city = cities[indexPath.row]
         let detailsViewController = DetailsViewController()
         detailsViewController.weather = city
         navigationController?.pushViewController(detailsViewController, animated: true)
@@ -101,15 +101,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 extension MainViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let filter = searchController.searchBar.text, !filter.isEmpty else {
-            filteredСities.removeAll()
-            isFiltering = false
+        guard let text = searchController.searchBar.text, !text.isEmpty else {
+            cities = fetchedCities
             tableView.reloadData()
             return
         }
         
-        isFiltering = true
-        filteredСities = cities.filter { $0.geoObject.locality.name.lowercased().contains(filter.lowercased()) }
+        cities = cities.filter { $0.geoObject.locality.name.lowercased().contains(text.lowercased()) }
         tableView.reloadData()
     }
 }
