@@ -25,6 +25,7 @@ struct NetworkManager {
         
         let task = URLSession.shared.dataTask(with: request) { (data, error, _) in
             guard let data = data else { return }
+            
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase

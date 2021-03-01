@@ -12,8 +12,8 @@ struct GeoService {
     static let shared = GeoService()
     private init() {}
     
-    func getLocation(for cityName: String, complete: @escaping (_ coordinate: CLLocationCoordinate2D?, _ error: Error?) -> ()) {
-        CLGeocoder().geocodeAddressString(cityName) { (placemark, error) in
+    func getLocation(for city: String, complete: @escaping (_ location: CLLocationCoordinate2D?, _ error: Error?) -> ()) {
+        CLGeocoder().geocodeAddressString(city) { (placemark, error) in
             complete(placemark?.first?.location?.coordinate, error)
         }
     }

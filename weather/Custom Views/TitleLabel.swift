@@ -24,8 +24,6 @@ class TitleLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     private func configure() {
         textColor                                   = .label
         adjustsFontSizeToFitWidth                   = true
@@ -33,5 +31,4 @@ class TitleLabel: UILabel {
         lineBreakMode                               = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints   = false
     }
-    
 }

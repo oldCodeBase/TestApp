@@ -60,17 +60,13 @@ class MainViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
-    private func dismissActivityIndicator() {
-        self.activityIndicator.removeFromSuperview()
-    }
-    
+
     private func uploadData() {
         showActivityIndicator()
         WeatherManager.shared.getCityWeather(cities: cityNames) { [weak self] weather in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.dismissActivityIndicator()
+                self.activityIndicator.removeFromSuperview()
                 self.cities = weather
                 self.tableView.reloadData()
             }
