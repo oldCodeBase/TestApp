@@ -12,10 +12,10 @@ class MainViewController: UIViewController {
     private let tableView         = UITableView()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    private var cities            = [Weather]()
-    private var fetchedCities     = [Weather]()
-    private var cityNames         = ["Moscow", "New-York", "London", "Paris", "Berlin",
-                                     "Rim", "Oslo", "Grozny", "Madrid", "Amsterdam"]
+    private var cities: [Weather]           = []
+    private var fetchedCities: [Weather]    = []
+    private var cityNames                   = ["Moscow", "New-York", "London", "Paris", "Berlin",
+                                               "Rim", "Oslo", "Grozny", "Madrid", "Amsterdam"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
